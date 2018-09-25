@@ -73,28 +73,28 @@ namespace DeepThought
             {
                 foreach (HiddenNeuron hiddenneuron in HiddenNeurons.Where(x => x.Layer == 1))
                 {
-                    Synapses.Add(new Synapse(neuron, hiddenneuron));
+                    Synapses.Add(neuron.CreateOutputSynapse(hiddenneuron));
                 }
             }
 
             //connect hidden layers
             for (int i = 1; i < NumberOfLayers; i++)
             {
-                foreach(HiddenNeuron sourceneutron in HiddenNeurons.Where(x => x.Layer == i))
+                foreach(HiddenNeuron sourceneuron in HiddenNeurons.Where(x => x.Layer == i))
                 {
-                    foreach (HiddenNeuron targetneutron in HiddenNeurons.Where(x => x.Layer == i + 1))
+                    foreach (HiddenNeuron targetneuron in HiddenNeurons.Where(x => x.Layer == i + 1))
                     {
-                        Synapses.Add(new Synapse(sourceneutron, targetneutron));
+                        Synapses.Add(sourceneuron.CreateOutputSynapse(targetneuron));
                     }
                 }
             }
 
             //connect to outputneurons
-            foreach (HiddenNeuron sourceneutron in HiddenNeurons.Where(x => x.Layer == NumberOfLayers))
+            foreach (HiddenNeuron sourceneuron in HiddenNeurons.Where(x => x.Layer == NumberOfLayers))
             {
-                foreach (OutputNeuron targetneutron in OutputNeurons)
+                foreach (OutputNeuron targetneuron in OutputNeurons)
                 {
-                    Synapses.Add(new Synapse(sourceneutron, targetneutron));
+                    Synapses.Add(sourceneuron.CreateOutputSynapse(targetneuron));
                 }
             }
         }

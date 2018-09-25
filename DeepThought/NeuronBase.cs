@@ -12,6 +12,7 @@ namespace DeepThought
         public NeuronBase(Func<decimal, decimal> activationfunction)
         {
             ActivationFunction = activationfunction;
+            OutputSynapses = new List<Synapse>();
         }
         #endregion
 
@@ -32,6 +33,12 @@ namespace DeepThought
         {
             InputValue = 0;
         }
+        public Synapse CreateOutputSynapse(NeuronBase targetneuron)
+        {
+            Synapse synapse = new Synapse(this, targetneuron);
+            OutputSynapses.Add(synapse);
+            return synapse;
+        }
         protected decimal GetOutputValue()
         {
             return ActivationFunction.Invoke(InputValue);
@@ -39,7 +46,7 @@ namespace DeepThought
         #endregion
 
         #region properties
-        private Synapse[] OutputSynapses { get; set; }
+        public List< Synapse> OutputSynapses { get; set; }
         private Func<decimal, decimal> ActivationFunction { get; set; }
         #endregion
 
