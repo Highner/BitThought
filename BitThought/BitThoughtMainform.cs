@@ -15,8 +15,7 @@ namespace BitThought
         public BitThoughtMainform()
         {
             InitializeComponent();
-            BigBrain = new DeepThought.DeepThoughtNetwork(5, new int[] { 4, 3, 2 }, 2, ActivationFunction);
-            BigBrain.CreateNetwork();
+            BigBrain = new DeepThought.CryptoThoughtNetwork(5, new int[] { 4, 3, 2 }, 2, ActivationFunction);
             
         }
 
@@ -25,6 +24,6 @@ namespace BitThought
             return 0;
         }
 
-       DeepThought.DeepThoughtNetwork BigBrain { get; set; }
+       DeepThought.CryptoThoughtNetwork BigBrain { get; set; }
     }
 }

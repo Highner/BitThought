@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeepThought
 {
-    public class DeepThoughtNetwork
+    abstract public class DeepThoughtNetwork
     {
         #region constructor
         public DeepThoughtNetwork()
@@ -22,9 +22,9 @@ namespace DeepThought
             ActivationFunction = activationfunction;
         }
         #endregion
-
-        #region public methods
-        public void CreateNetwork()
+        
+        #region network creation
+        protected void CreateNetwork()
         {
             CreateInputNeurons();
 
@@ -34,9 +34,6 @@ namespace DeepThought
 
             CreateSynapses();
         }
-        #endregion
-
-        #region network creation
         private void CreateInputNeurons()
         {
             InputNeurons = new List<InputNeuron>();
@@ -114,7 +111,7 @@ namespace DeepThought
         #endregion
 
         #region fields
-        private int NumberOfLayers
+        protected int NumberOfLayers
         {
             get
             {
@@ -122,11 +119,11 @@ namespace DeepThought
             }
         }
 
-        private int[] LayerDistribution;
+        protected int[] LayerDistribution;
 
-        private int NumberOfInputNeurons;
+        protected int NumberOfInputNeurons;
 
-        private int NumberOfOutputNeurons;
+        protected int NumberOfOutputNeurons;
 
         public Func<decimal, decimal> ActivationFunction;
         #endregion
