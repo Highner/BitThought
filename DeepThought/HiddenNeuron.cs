@@ -13,6 +13,12 @@ namespace DeepThought
             Layer = layer;
         }
 
+        public HiddenNeuron(Func<decimal, decimal> activationfunction, int layer, bool isbias) : base(activationfunction)
+        {
+            Layer = layer;
+            IsBias = isbias;
+        }
+
         public int Layer { get; set; }
     }
 }

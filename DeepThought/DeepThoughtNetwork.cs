@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DeepThought
 {
-    public class BigBrain
+    public class DeepThoughtNetwork
     {
         #region constructor
-        public BigBrain()
+        public DeepThoughtNetwork()
         { }
-        public BigBrain(int numberofinputneurons, int[] layers, int numberofoutputneurons, Func<decimal,decimal> activationfunction)
+        public DeepThoughtNetwork(int numberofinputneurons, int[] layers, int numberofoutputneurons, Func<decimal, decimal> activationfunction)
         {
             LayerDistribution = layers;
 
@@ -31,10 +31,12 @@ namespace DeepThought
             CreateOutputNeurons();
 
             CreateHiddenNeurons();
+
+            CreateSynapses();
         }
         #endregion
 
-        #region private methods
+        #region network creation
         private void CreateInputNeurons()
         {
             InputNeurons = new List<InputNeuron>();
@@ -58,7 +60,8 @@ namespace DeepThought
             HiddenNeurons = new List<HiddenNeuron>();
             for (int i = 1; i <= NumberOfLayers; i++)
             {
-                for (int x = 1; x <= LayerDistribution[i]; x++)
+                HiddenNeurons.Add(new HiddenNeuron(ActivationFunction, i, true));
+                for (int x = 1; x <= LayerDistribution[i - 1]; x++)
                 {
                     HiddenNeurons.Add(new HiddenNeuron(ActivationFunction, i));
                 }
@@ -71,7 +74,7 @@ namespace DeepThought
             //connect first layer to inputneurons
             foreach(InputNeuron neuron in InputNeurons)
             {
-                foreach (HiddenNeuron hiddenneuron in HiddenNeurons.Where(x => x.Layer == 1))
+                foreach (HiddenNeuron hiddenneuron in HiddenNeurons.Where(x => x.Layer == 1 && !x.IsBias))
                 {
                     Synapses.Add(neuron.CreateOutputSynapse(hiddenneuron));
                 }
@@ -82,7 +85,7 @@ namespace DeepThought
             {
                 foreach(HiddenNeuron sourceneuron in HiddenNeurons.Where(x => x.Layer == i))
                 {
-                    foreach (HiddenNeuron targetneuron in HiddenNeurons.Where(x => x.Layer == i + 1))
+                    foreach (HiddenNeuron targetneuron in HiddenNeurons.Where(x => x.Layer == i + 1 && !x.IsBias))
                     {
                         Synapses.Add(sourceneuron.CreateOutputSynapse(targetneuron));
                     }
@@ -125,7 +128,7 @@ namespace DeepThought
 
         private int NumberOfOutputNeurons;
 
-        private Func<decimal, decimal> ActivationFunction;
+        public Func<decimal, decimal> ActivationFunction;
         #endregion
     }
 }

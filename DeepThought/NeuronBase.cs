@@ -9,6 +9,10 @@ namespace DeepThought
     abstract class NeuronBase
     {
         #region constructor
+        public NeuronBase()
+        {
+            OutputSynapses = new List<Synapse>();
+        }
         public NeuronBase(Func<decimal, decimal> activationfunction)
         {
             ActivationFunction = activationfunction;
@@ -41,13 +45,22 @@ namespace DeepThought
         }
         protected decimal GetOutputValue()
         {
-            return ActivationFunction.Invoke(InputValue);
+            if (IsBias)
+            {
+                return 1;
+            }
+            else
+            {
+                return ActivationFunction.Invoke(InputValue);
+            }
+            
         }
         #endregion
 
         #region properties
         public List< Synapse> OutputSynapses { get; set; }
         private Func<decimal, decimal> ActivationFunction { get; set; }
+        public bool IsBias { get; set; }
         #endregion
 
         #region fields

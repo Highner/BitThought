@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BigBrain.cs" />
+    <Compile Include="DeepThoughtNetwork.cs" />
     <Compile Include="HiddenNeuron.cs" />
     <Compile Include="InputNeuron.cs" />
     <Compile Include="NeuronBase.cs" />
