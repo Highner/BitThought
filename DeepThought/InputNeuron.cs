@@ -8,10 +8,11 @@ namespace DeepThought
 {
     class InputNeuron: NeuronBase
     {
-        public InputNeuron(Func<decimal, decimal> activationfunction) : base(activationfunction)
+        public InputNeuron(Func<double, double> activationfunction, int index) : base(activationfunction)
         {
-            
+            Index = index;
         }
-                
+
+        public int Index;
     }
 }

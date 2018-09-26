@@ -11,62 +11,46 @@ namespace DeepThought
         #region constructor
         public CryptoThoughtNetwork()
         { }
-        public CryptoThoughtNetwork(int numberofinputneurons, int[] layers, int numberofoutputneurons, Func<decimal, decimal> activationfunction): base(numberofinputneurons, layers, numberofoutputneurons, activationfunction)
+        public CryptoThoughtNetwork(int numberofinputneurons, int[] layers, int numberofoutputneurons, Func<double, double> activationfunction): base(numberofinputneurons, layers, numberofoutputneurons, activationfunction)
         {
             CreateNetwork();
         }
         #endregion
 
         #region public methods
-        public void Train(List<decimal[]> trainingdata, int trainingoffset)
+        public void Train(List<double[]> trainingdata, int resultoffset)
         {
-            if (trainingdata.Count() < trainingoffset)
-            {
-                Console.WriteLine("Not enough datasets");
-            }
-            else if (!ValidateData(trainingdata[0]))
-            {
-                Console.WriteLine("Wrong Dataformat");
-            }
-            else
+           if (ValidateData(trainingdata, resultoffset))
             {
                 TrainingData = trainingdata;
-                TrainingOffset = trainingoffset;
-                for (int i = 1; i < trainingdata.Count() - trainingoffset; i++)
+                TrainingOffset = resultoffset;
+                for (int i = 1; i < trainingdata.Count() - resultoffset; i++)
                 {
-                    Train(TrainingData[i], TrainingData[i + trainingoffset]);
+                    TrainCycle(TrainingData[i], TrainingData[i + resultoffset]);
                 }
             }
         }
         #endregion
 
         #region private methods
-        private bool ValidateData(decimal[] inputdata)
+        private bool ValidateData(List<double[]> trainingdata, int resultoffset)
         {
-            return (inputdata.Count() == NumberOfInputNeurons);
-        }
-
-        private void Train(decimal[] inputdata, decimal[] expecteddata)
-        {
-
-        }
-
-        private decimal CalculateLoss(decimal[] expectedvalues, decimal[] actualvalues)
-        {
-            decimal sum = 0;
-            for (int i = 1; i < expectedvalues.Count(); i++)
+            if (trainingdata.Count() < resultoffset)
             {
-                decimal error = expectedvalues[i] - actualvalues[i];
-                sum += error * error;
+                Console.WriteLine("Not enough datasets");
+                return false;
             }
-            return sum;
+            else if (!(trainingdata[0].Count() == NumberOfInputNeurons))
+            {
+                Console.WriteLine("Wrong Dataformat");
+                return false;
+            }
+            return true;
         }
         #endregion
 
         #region fields
         private int TrainingOffset;
-
-        private List<decimal[]> TrainingData { get; set; }
         #endregion  
     }
 }

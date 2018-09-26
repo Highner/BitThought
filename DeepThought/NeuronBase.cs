@@ -13,7 +13,7 @@ namespace DeepThought
         {
             OutputSynapses = new List<Synapse>();
         }
-        public NeuronBase(Func<decimal, decimal> activationfunction)
+        public NeuronBase(Func<double, double> activationfunction)
         {
             ActivationFunction = activationfunction;
             OutputSynapses = new List<Synapse>();
@@ -21,37 +21,47 @@ namespace DeepThought
         #endregion
 
         #region methods
-        public void AddInput(decimal input)
+        public void AddInput(double input)
         {
             InputValue += input;
         }
+
         public void Activate()
         {
             OutputValue = GetOutputValue();
+
             foreach (Synapse syn in OutputSynapses)
             {
                 syn.PassValue(OutputValue);
             }
         }
+
         public void ResetInputValue()
         {
             InputValue = 0;
         }
-        public Synapse CreateOutputSynapse(NeuronBase targetneuron)
+
+        public Synapse CreateOutputSynapse(NeuronBase targetneuron, int nextlayersize, int prelayersize)
         {
             Synapse synapse = new Synapse(this, targetneuron);
+
+            synapse.InputLayerSize = prelayersize;
+
+            synapse.OutputLayerSize = nextlayersize;
+
             OutputSynapses.Add(synapse);
+
             return synapse;
         }
-        protected decimal GetOutputValue()
+        protected double GetOutputValue()
         {
-            if (IsBias)
+            if (!IsBias)
             {
-                return 1;
+                return ActivationFunction.Invoke(InputValue);
             }
             else
             {
-                return ActivationFunction.Invoke(InputValue);
+                return 1;
             }
             
         }
@@ -59,13 +69,13 @@ namespace DeepThought
 
         #region properties
         public List< Synapse> OutputSynapses { get; set; }
-        private Func<decimal, decimal> ActivationFunction { get; set; }
+        private Func<double, double> ActivationFunction { get; set; }
         public bool IsBias { get; set; }
         #endregion
 
         #region fields
-        private Decimal InputValue;
-        private Decimal OutputValue;
+        private double InputValue;
+        private double OutputValue;
         #endregion
         
     }

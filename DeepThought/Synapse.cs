@@ -18,16 +18,31 @@ namespace DeepThought
         #endregion
 
         #region methods
-        public void PassValue(decimal inputvalue)
+        public void PassValue(double inputvalue)
         {
             TargetNeuron.AddInput((Weight * inputvalue));
         }
+        public void InitializeWeight(double weight)
+        {
+            Weight = weight;
+        }
+        public void UpdateWeights()
+        {
+            Weight = NewWeight;
+        }
+        #endregion
+
+        #region properties
+        
         #endregion
 
         #region fields
         private NeuronBase SourceNeuron;
         private NeuronBase TargetNeuron;
-        private Decimal Weight;
+        private double Weight;
+        private double NewWeight;
+        public int InputLayerSize;
+        public int OutputLayerSize;
         #endregion
     }
 }

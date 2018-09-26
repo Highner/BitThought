@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace DeepThought
 {
-    class HiddenNeuron: InputNeuron
+    class HiddenNeuron: NeuronBase
     {
-        public HiddenNeuron(Func<decimal, decimal> activationfunction, int layer) : base(activationfunction)
+        public HiddenNeuron(Func<double, double> activationfunction, int layer) : base(activationfunction)
         {
             Layer = layer;
         }
 
-        public HiddenNeuron(Func<decimal, decimal> activationfunction, int layer, bool isbias) : base(activationfunction)
+        public HiddenNeuron(Func<double, double> activationfunction, int layer, bool isbias) : base(activationfunction)
         {
             Layer = layer;
             IsBias = isbias;
