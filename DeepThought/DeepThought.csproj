@@ -40,15 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculations.cs" />
+    <Compile Include="Helpers\Calculations.cs" />
     <Compile Include="CryptoThoughtNetwork.cs" />
     <Compile Include="DeepThoughtNetwork.cs" />
-    <Compile Include="HiddenNeuron.cs" />
-    <Compile Include="InputNeuron.cs" />
-    <Compile Include="NeuronBase.cs" />
-    <Compile Include="OutputNeuron.cs" />
+    <Compile Include="NetworkParts\HiddenNeuron.cs" />
+    <Compile Include="ActivationFunctions\IActivationFunction.cs" />
+    <Compile Include="NetworkParts\InputNeuron.cs" />
+    <Compile Include="NetworkParts\NeuronBase.cs" />
+    <Compile Include="NetworkParts\OutputNeuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Synapse.cs" />
+    <Compile Include="ActivationFunctions\Sigmoid.cs" />
+    <Compile Include="ActivationFunctions\Swish.cs" />
+    <Compile Include="NetworkParts\Synapse.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

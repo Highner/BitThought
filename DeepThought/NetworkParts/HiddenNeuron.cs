@@ -8,12 +8,12 @@ namespace DeepThought
 {
     class HiddenNeuron: NeuronBase
     {
-        public HiddenNeuron(Func<double, double> activationfunction, int layer) : base(activationfunction)
+        public HiddenNeuron(IActivationFunction activationfunction, int layer) : base(activationfunction)
         {
             Layer = layer;
         }
 
-        public HiddenNeuron(Func<double, double> activationfunction, int layer, bool isbias) : base(activationfunction)
+        public HiddenNeuron(IActivationFunction activationfunction, int layer, bool isbias) : base(activationfunction)
         {
             Layer = layer;
             IsBias = isbias;

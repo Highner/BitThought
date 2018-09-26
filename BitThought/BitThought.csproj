@@ -51,7 +51,6 @@
     <Compile Include="BitThoughtMainform.Designer.cs">
       <DependentUpon>BitThoughtMainform.cs</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

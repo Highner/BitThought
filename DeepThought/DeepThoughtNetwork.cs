@@ -11,7 +11,7 @@ namespace DeepThought
         #region constructor
         public DeepThoughtNetwork()
         { }
-        public DeepThoughtNetwork(int numberofinputneurons, int[] layers, int numberofoutputneurons, Func<double, double> activationfunction)
+        public DeepThoughtNetwork(int numberofinputneurons, int[] layers, int numberofoutputneurons, IActivationFunction activationfunction)
         {
             LayerDistribution = layers;
 
@@ -42,7 +42,7 @@ namespace DeepThought
             GaussianRandom ran = new GaussianRandom();
             foreach (Synapse synapse in Synapses)
             {
-                double weight = (double)(ran.NextGaussian(synapse.InputLayerSize, synapse.OutputLayerSize));// * Math.Sqrt(2/synapse.InputLayerSize));
+                double weight = (double)(ran.NextGaussian());// * Math.Sqrt(2/synapse.InputLayerSize));
                 synapse.InitializeWeight(weight);
             }
         }
@@ -52,14 +52,7 @@ namespace DeepThought
             InputNeurons = new List<InputNeuron>();
             for (int i = 1; i <= NumberOfInputNeurons; i++)
             {
-                if (ActivationFunctionInput != null)
-                {
-                    InputNeurons.Add(new InputNeuron(ActivationFunctionInput, i));
-                }
-                else
-                {
-                    InputNeurons.Add(new InputNeuron(ActivationFunction, i));
-                }
+                InputNeurons.Add(new InputNeuron(ActivationFunction, i));
             }
         }
 
@@ -68,14 +61,7 @@ namespace DeepThought
             OutputNeurons = new List<OutputNeuron>();
             for (int i = 1; i <= NumberOfOutputNeurons; i++)
             {
-                if (ActivationFunctionOutput != null)
-                {
-                    OutputNeurons.Add(new OutputNeuron(ActivationFunctionOutput));
-                }
-                else
-                {
-                    OutputNeurons.Add(new OutputNeuron(ActivationFunction));
-                }
+                OutputNeurons.Add(new OutputNeuron(ActivationFunction));
             }
         }
 
@@ -83,12 +69,17 @@ namespace DeepThought
         {
             HiddenNeurons = new List<HiddenNeuron>();
             HiddenLayers = new List<List<HiddenNeuron>>();
+
+            //add layers
             for (int i = 1; i <= NumberOfLayers; i++)
             {
+                //add bias neuron to each layer and to general hidden neuron collection
                 HiddenLayers.Add(new List<HiddenNeuron>());
                 HiddenNeuron biasneuron = new HiddenNeuron(ActivationFunction, i, true);
                 HiddenNeurons.Add(biasneuron);
                 HiddenLayers[i-1].Add(biasneuron);
+
+                //add hidden neurons to each layer according to layerdistribution and to general hidden neuron collection
                 for (int x = 1; x <= LayerDistribution[i - 1]; x++)
                 {
                     HiddenNeuron hiddenneuron = new HiddenNeuron(ActivationFunction, i);
@@ -127,7 +118,7 @@ namespace DeepThought
             {
                 foreach (OutputNeuron targetneuron in OutputNeurons)
                 {
-                    Synapses.Add(sourceneuron.CreateOutputSynapse(targetneuron, sourceneuron.Layer, OutputNeurons.Count()));
+                    Synapses.Add(sourceneuron.CreateOutputSynapse(targetneuron, OutputNeurons.Count(), HiddenNeurons.Where(x => x.Layer == NumberOfLayers).Count()));
                 }
             }
         }
@@ -145,15 +136,7 @@ namespace DeepThought
             return resultlist.ToArray();
         }
 
-        public void SetActivationFunctionOutput(Func<double,double> activationfunction)
-        {
-            ActivationFunctionOutput = activationfunction;
-        }
-
-        public void SetActivationFunctionInput(Func<double, double> activationfunction)
-        {
-            ActivationFunctionInput = activationfunction;
-        }
+        
         #endregion
 
         #region training
@@ -194,10 +177,9 @@ namespace DeepThought
 
             Loss = CalculateLoss(GetResult(), expecteddata);
 
+            
 
-
-
-            UpdateWeights();
+            //UpdateWeights();
         }
 
         private void ForwardPropagate(double[] inputdata)
@@ -274,11 +256,7 @@ namespace DeepThought
 
         protected List<double[]> TrainingData { get; set; }
 
-        private Func<double, double> ActivationFunction;
-
-        private Func<double, double> ActivationFunctionInput;
-
-        private Func<double, double> ActivationFunctionOutput;
+        private IActivationFunction ActivationFunction;
 
         public double Loss;
 
