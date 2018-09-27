@@ -9,13 +9,17 @@ namespace DeepThought
     class OutputNeuron: NeuronBase
     {
         #region constructor
-        public OutputNeuron(IActivationFunction activationfunction) : base(activationfunction)
+        public OutputNeuron(Data.EnumActivationFunctions activationfunction) : base(activationfunction)
         {
 
         }
         #endregion
 
         #region properties
+
+        #endregion
+
+        #region fields
 
         #endregion
     }

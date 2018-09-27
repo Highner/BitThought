@@ -16,7 +16,7 @@ namespace BitThought
         {
             InitializeComponent();
 
-            BigBrain = new DeepThought.CryptoThoughtNetwork(4, new int[] { 3 }, 2, new DeepThought.ActivationFunctions.Swish(1.5));
+            BigBrain = new DeepThought.CryptoThoughtNetwork(4, new int[] { 3 , 5 }, 2, new DeepThought.Data.EnumActivationFunctions[] { DeepThought.Data.EnumActivationFunctions.Swish, DeepThought.Data.EnumActivationFunctions.Sigmoid});
 
             BigBrain.Train(Trainingdata(), 1);
         }

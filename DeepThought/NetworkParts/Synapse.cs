@@ -30,6 +30,7 @@ namespace DeepThought
         {
             Weight = NewWeight;
         }
+        //public void SetNewWeight
         #endregion
 
         #region properties

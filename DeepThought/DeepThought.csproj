@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\ActivationFunctionDataFactory.cs" />
+    <Compile Include="Data\EnumActivationFunctions.cs" />
     <Compile Include="Helpers\Calculations.cs" />
     <Compile Include="CryptoThoughtNetwork.cs" />
     <Compile Include="DeepThoughtNetwork.cs" />

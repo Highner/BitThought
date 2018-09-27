@@ -11,7 +11,7 @@ namespace DeepThought
         #region constructor
         public CryptoThoughtNetwork()
         { }
-        public CryptoThoughtNetwork(int numberofinputneurons, int[] layers, int numberofoutputneurons, IActivationFunction activationfunction): base(numberofinputneurons, layers, numberofoutputneurons, activationfunction)
+        public CryptoThoughtNetwork(int numberofinputneurons, int[] layers, int numberofoutputneurons, Data.EnumActivationFunctions[] activationfunction) : base(numberofinputneurons, layers, numberofoutputneurons, activationfunction)
         {
             CreateNetwork();
         }

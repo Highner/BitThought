@@ -14,9 +14,9 @@ namespace DeepThought
             OutputSynapses = new List<Synapse>();
             InputSynapses = new List<Synapse>();
         }
-        public NeuronBase(IActivationFunction activationfunction)
+        public NeuronBase(Data.EnumActivationFunctions activationfunction)
         {
-            ActivationFunction = activationfunction;
+            ActivationFunction = Data.ActivationFunctionDataFactory.GenerateActivationFunction(activationfunction);
             OutputSynapses = new List<Synapse>();
             InputSynapses = new List<Synapse>();
         }
@@ -26,6 +26,24 @@ namespace DeepThought
         public void AddInput(double input)
         {
             InputValue += input;
+        }
+
+        protected double GetOutputValue()
+        {
+            if (!IsBias)
+            {
+                return ActivationFunction.ActivationFunction(InputValue);
+            }
+            else
+            {
+                return 1;
+            }
+
+        }
+
+        private void CalculateErrorSignal()
+        {
+            ErrorSignal = ActivationFunction.Derivative(OutputValue) * NeuronLoss;
         }
 
         public void Activate()
@@ -38,11 +56,24 @@ namespace DeepThought
             }
         }
 
+        public void BackPropagate()
+        {
+            CalculateErrorSignal();
+
+            foreach(Synapse synapse in InputSynapses)
+            {
+                
+            }
+        }
+
         public void ResetInputValue()
         {
             InputValue = 0;
         }
 
+        #endregion
+
+        #region creation
         public Synapse CreateOutputSynapse(NeuronBase targetneuron, int nextlayersize, int prelayersize)
         {
             Synapse synapse = new Synapse(this, targetneuron);
@@ -57,18 +88,7 @@ namespace DeepThought
 
             return synapse;
         }
-        protected double GetOutputValue()
-        {
-            if (!IsBias)
-            {
-                return ActivationFunction.ActivationFunction(InputValue);
-            }
-            else
-            {
-                return 1;
-            }
-            
-        }
+
         #endregion
 
         #region properties
@@ -76,13 +96,22 @@ namespace DeepThought
         public List<Synapse> InputSynapses { get; set; }
         private IActivationFunction ActivationFunction { get; set; }
         public bool IsBias { get; set; }
+        public double NeuronLoss
+        {
+            get
+            {
+                return ExpectedOutputValue - OutputValue;
+            }
+        }
         #endregion
 
         #region fields
         private double InputValue;
         public double OutputValue;
+        public double ExpectedOutputValue;
+        public double ErrorSignal;
         #endregion
-        
+
     }
 
 }
