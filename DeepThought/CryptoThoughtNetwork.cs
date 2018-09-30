@@ -35,16 +35,16 @@ namespace DeepThought
         #region private methods
         private bool ValidateData(List<double[]> trainingdata, int resultoffset)
         {
-            if (trainingdata.Count() < resultoffset)
-            {
-                Console.WriteLine("Not enough datasets");
-                return false;
-            }
-            else if (!(trainingdata[0].Count() == NumberOfInputNeurons))
-            {
-                Console.WriteLine("Wrong Dataformat");
-                return false;
-            }
+            //if (trainingdata.Count() < resultoffset)
+            //{
+            //    Console.WriteLine("Not enough datasets");
+            //    return false;
+            //}
+            //else if (!(trainingdata[0].Count() == NumberOfInputNeurons))
+            //{
+            //    Console.WriteLine("Wrong Dataformat");
+            //    return false;
+            //}
             return true;
         }
         #endregion

@@ -40,11 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivationFunctions\ReLU.cs" />
+    <Compile Include="ActivationFunctions\SoftPlus.cs" />
     <Compile Include="Data\ActivationFunctionDataFactory.cs" />
     <Compile Include="Data\EnumActivationFunctions.cs" />
     <Compile Include="Helpers\Calculations.cs" />
     <Compile Include="CryptoThoughtNetwork.cs" />
-    <Compile Include="DeepThoughtNetwork.cs" />
+    <Compile Include="NetworkParts\DeepThoughtNetwork.cs" />
     <Compile Include="NetworkParts\HiddenNeuron.cs" />
     <Compile Include="ActivationFunctions\IActivationFunction.cs" />
     <Compile Include="NetworkParts\InputNeuron.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="ActivationFunctions\Sigmoid.cs" />
     <Compile Include="ActivationFunctions\Swish.cs" />
     <Compile Include="NetworkParts\Synapse.cs" />
+    <Compile Include="WineThought.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

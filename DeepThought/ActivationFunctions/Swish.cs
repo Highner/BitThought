@@ -14,17 +14,20 @@ namespace DeepThought.ActivationFunctions
         }
         public double Derivative(double value)
         {
-            return 0;
+            return ActivationFunction(value) + _Sigmoid.ActivationFunction(value) * (1 - ActivationFunction(value));
         }
 
         public double ActivationFunction(double value)
         {
-            double z = value / 2;
-            double sig = (1 + Math.Tanh(z));
-            double sigmoid = sig / 2;
-            return value * sigmoid * beta;
+            //double z = value / 2;
+            //double sig = (1 + Math.Tanh(z));
+            //double sigmoid = sig / 2;
+            //return value * sigmoid * beta;
+
+            return value * beta * _Sigmoid.ActivationFunction(value); // beta * (1 / (1 + Math.Pow(2.71828, -value)));
         }
 
         private double beta;
+        private IActivationFunction _Sigmoid = new Sigmoid();
     }
 }

@@ -10,6 +10,7 @@ namespace DeepThought.Data
     {
         Swish,
         Sigmoid,
-        ReLu
+        ReLu,
+        SoftPlus
     }
 }

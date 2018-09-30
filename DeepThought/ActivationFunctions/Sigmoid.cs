@@ -10,16 +10,18 @@ namespace DeepThought.ActivationFunctions
     {
         public double Derivative(double value)
         {
-            return 0;
+            return value *(1-value);
         }
 
         public double ActivationFunction(double value)
         {
-            double x = value;
-            double z = x / 2;
-            double sig = (1 + Math.Tanh(z));
-            double sigmoid = sig / 2;
-            return sigmoid;
+            //double x = value;
+            //double z = x / 2;
+            //double sig = (1 + Math.Tanh(z));
+            //double sigmoid = sig / 2;
+            //return sigmoid;
+            return 1 / (1 + Math.Pow(2.71828, -value));
+            //return (1 / (1 + Math.Exp(-value)));
         }
     }
 }

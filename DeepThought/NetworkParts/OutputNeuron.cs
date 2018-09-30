@@ -9,18 +9,40 @@ namespace DeepThought
     class OutputNeuron: NeuronBase
     {
         #region constructor
-        public OutputNeuron(Data.EnumActivationFunctions activationfunction) : base(activationfunction)
+        public OutputNeuron(Data.EnumActivationFunctions activationfunction, double learningrate) : base(activationfunction, learningrate)
         {
 
         }
         #endregion
 
-        #region properties
+        #region basemethods
+        public override void BackPropagate()
+        {
+            PreviousPartialDerivative = NeuronLoss * ActivationFunction.Derivative(OutputValue);
+
+            foreach (Synapse synapse in InputSynapses)
+            {
+                var netInput = synapse.OutputValue;
+                var delta = -1 * netInput * PreviousPartialDerivative;
+                synapse.CalculateNewWeight(delta, LearningRate);
+            }
+        }
+
 
         #endregion
 
-        #region fields
+        #region properties
+        public double NeuronLoss
+        {
+            get
+            {
+                return ExpectedOutputValue - OutputValue;
+            }
+        }
+        #endregion
 
+        #region fields
+        public double ExpectedOutputValue;
         #endregion
     }
 }

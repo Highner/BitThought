@@ -14,9 +14,10 @@ namespace DeepThought
             OutputSynapses = new List<Synapse>();
             InputSynapses = new List<Synapse>();
         }
-        public NeuronBase(Data.EnumActivationFunctions activationfunction)
+        public NeuronBase(Data.EnumActivationFunctions activationfunction, double learningrate)
         {
             ActivationFunction = Data.ActivationFunctionDataFactory.GenerateActivationFunction(activationfunction);
+            LearningRate = learningrate;
             OutputSynapses = new List<Synapse>();
             InputSynapses = new List<Synapse>();
         }
@@ -41,11 +42,6 @@ namespace DeepThought
 
         }
 
-        private void CalculateErrorSignal()
-        {
-            ErrorSignal = ActivationFunction.Derivative(OutputValue) * NeuronLoss;
-        }
-
         public void Activate()
         {
             OutputValue = GetOutputValue();
@@ -56,14 +52,26 @@ namespace DeepThought
             }
         }
 
-        public void BackPropagate()
+        public virtual void BackPropagate() 
         {
-            CalculateErrorSignal();
-
-            foreach(Synapse synapse in InputSynapses)
+            double sumPartial = 0;
+            foreach (Synapse outsyn in OutputSynapses)
             {
-                
+                sumPartial += outsyn.PreviousWeight * outsyn.TargetNeuron.PreviousPartialDerivative;
             }
+
+
+            foreach (Synapse synapse in InputSynapses)
+            {
+
+                var netInput = synapse.OutputValue;
+                
+
+                var delta = -1 * netInput * sumPartial * ActivationFunction.Derivative(OutputValue);
+                synapse.CalculateNewWeight(delta, LearningRate);
+
+            }
+            PreviousPartialDerivative = sumPartial;
         }
 
         public void ResetInputValue()
@@ -94,22 +102,16 @@ namespace DeepThought
         #region properties
         public List<Synapse> OutputSynapses { get; set; }
         public List<Synapse> InputSynapses { get; set; }
-        private IActivationFunction ActivationFunction { get; set; }
+        protected IActivationFunction ActivationFunction { get; set; }
         public bool IsBias { get; set; }
-        public double NeuronLoss
-        {
-            get
-            {
-                return ExpectedOutputValue - OutputValue;
-            }
-        }
         #endregion
 
         #region fields
-        private double InputValue;
+        protected double InputValue;
         public double OutputValue;
-        public double ExpectedOutputValue;
         public double ErrorSignal;
+        protected double LearningRate;
+        public double PreviousPartialDerivative;
         #endregion
 
     }
