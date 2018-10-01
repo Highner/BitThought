@@ -50,7 +50,7 @@ namespace DeepThought
             {
                 double xavier = (InputNeurons.Count() + OutputNeurons.Count()) / 2;
                 double weight = (double)(ran.NextGaussian(0, xavier));
-                synapse.InitializeWeight(weight);
+                synapse.InitializeWeight(weight / 100);
             }
         }
 
@@ -171,8 +171,20 @@ namespace DeepThought
 
             return resultlist.ToArray();
         }
+        public double[] GetResult(double[] values)
+        {
 
-        
+            ForwardPropagate(values);
+
+            List<double> resultlist = new List<double>();
+            foreach (OutputNeuron outputneuron in OutputNeurons)
+            {
+                resultlist.Add(outputneuron.OutputValue);
+            }
+
+            return resultlist.ToArray();
+        }
+
         #endregion
 
         #region training

@@ -11,6 +11,7 @@ namespace DeepThought.Data
         Swish,
         Sigmoid,
         ReLu,
-        SoftPlus
+        SoftPlus,
+        Identity
     }
 }

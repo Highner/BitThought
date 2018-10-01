@@ -23,6 +23,8 @@ namespace DeepThought.Data
                     return new ActivationFunctions.ReLU();
                 case EnumActivationFunctions.SoftPlus:
                     return new ActivationFunctions.SoftPlus();
+                case EnumActivationFunctions.Identity:
+                    return new ActivationFunctions.Identity();
                 default:
                     return null;
             }

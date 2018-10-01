@@ -8,7 +8,7 @@ namespace DeepThought
 {
     public class WineThought: DeepThoughtNetwork
     {
-        public WineThought(double learningrate): base(13, new int[] { 20, 15, 10 }, 1, Data.EnumActivationFunctions.Sigmoid)
+        public WineThought(double learningrate): base(13, new int[] { 35,35 }, 1, Data.EnumActivationFunctions.Identity)
         {
             SetLearningRate(learningrate);
             CreateNetwork();
