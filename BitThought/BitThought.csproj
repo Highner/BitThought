@@ -63,10 +63,19 @@
       <HintPath>..\packages\Accord.Statistics.3.8.0\lib\net45\Accord.Statistics.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="HynrFramework">
+      <HintPath>..\..\..\..\Desktop\HynrFramework\HynrFramework\bin\Debug\HynrFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,28 +84,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitThoughtMainform.cs">
+    <Compile Include="Forms\BitThoughtMainform.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BitThoughtMainform.Designer.cs">
+    <Compile Include="Forms\BitThoughtMainform.Designer.cs">
       <DependentUpon>BitThoughtMainform.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\IDataGenerator.cs" />
+    <Compile Include="Data\OHLCData.cs" />
+    <Compile Include="Data\TrainingData.cs" />
+    <Compile Include="Indicators\Base\IIndicator.cs" />
+    <Compile Include="Indicators\Base\IndicatorBase.cs" />
+    <Compile Include="Indicators\Base\IndicatorSignal.cs" />
+    <Compile Include="Indicators\MinMaxPriceChangeIndicator.cs" />
+    <Compile Include="Indicators\NextIntervalIndicator.cs" />
+    <Compile Include="NeuroNetworks\Base\INeuroNetwork.cs" />
+    <Compile Include="NeuroNetworks\Base\NeuroNetworkBase.cs" />
+    <Compile Include="NeuroNetworks\MinMaxPriceChangeNetwork.cs" />
+    <Compile Include="NeuroNetworks\NextIntervalNetwork.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BitThoughtMainform.resx">
+    <EmbeddedResource Include="Forms\BitThoughtMainform.resx">
       <DependentUpon>BitThoughtMainform.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DeepThought\DeepThought.csproj">
-      <Project>{cf1914cb-1965-47bb-b72c-09406fa17e3f}</Project>
-      <Name>DeepThought</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Folder Include="ViewModels\ItemViewModels\" />
+    <Folder Include="ViewModels\ListViewModels\" />
+    <Folder Include="ViewModels\MainViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />
