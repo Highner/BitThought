@@ -26,7 +26,7 @@ namespace BitThought
 
             Indicator = new Indicators.NextIntervalIndicator(6);
 
-            Indicator.TrainNetwork(10000);
+            Indicator.TrainNetwork(1000);
             Indicator.Test();
 
             List<double[]> newlist = new List<double[]>();

@@ -53,6 +53,50 @@ namespace BitThought.NeuroNetworks
             MeanSquareError = sum / length;
         }
 
+        static double Scale(double x, double min, double max)
+        {
+            double fieldlow = 0;
+            double fieldhigh = 1;
+            double temp = ((x - min) / (max - min)) * (fieldhigh - fieldlow) + fieldlow;
+            return temp;
+        }
+        static double DeScale(double x, double min, double max)
+        {
+            double fieldlow = 0;
+            double fieldhigh = 1;
+            double temp = ((min - max) * x - fieldhigh * min + max * fieldlow) / (fieldlow - fieldhigh);
+            return temp;
+        }
+
+        void ScaleData(ref double[][] data)
+        {
+            List<double[]> newdata = new List<double[]>();
+            for(int i = 0; i < data[0].Length; i++)
+            {
+                double min = data.Select(y => y[i]).Min();
+                double max = data.Select(y => y[i]).Max();
+
+                for (int x = 0; x < data.Length; x++)
+                {
+                    data[x][i] = Scale(data[x][i], min, max);
+                }
+            }
+        }
+
+        void DeScaleData(ref double[][] data)
+        {
+            List<double[]> newdata = new List<double[]>();
+            for (int i = 0; i < data[0].Length; i++)
+            {
+                double min = data.Select(y => y[i]).Min();
+                double max = data.Select(y => y[i]).Max();
+
+                for (int x = 0; x < data.Length; x++)
+                {
+                    data[x][i] = DeScale(data[x][i], min, max);
+                }
+            }
+        }
         protected abstract void Convert(double[][] source, out double[][] input, out double[][] output);
 
         #endregion
@@ -88,8 +132,20 @@ namespace BitThought.NeuroNetworks
 
         public void SetTrainingData(double[][] trainingdata, double[][] testdata)
         {
+
             _TrainingSourceData = trainingdata;
             _TestSourceData = testdata;
+
+            if (_ScaleData)
+            {
+                var data1 = trainingdata;
+                ScaleData(ref data1);
+                _TrainingSourceData = data1;
+
+                var data2 = testdata;
+                ScaleData(ref data2);
+                _TestSourceData = data2;
+            }
 
             double[][] _traininginput;
             double[][] _trainingoutput;
@@ -122,6 +178,7 @@ namespace BitThought.NeuroNetworks
         protected double[][] _TestInput { get; set; }
         protected double[][] _TestOutput { get; set; }
         protected int _InputNeurons { get; set; }
+        protected bool _ScaleData { get; set; }
         #endregion
 
         #region public properties
