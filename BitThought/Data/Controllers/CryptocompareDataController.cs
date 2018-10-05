@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace BitThought.Data
 {
-    public class TrainingData
+    public class CryptocompareDataController
     {
-        
+        //public List<double[]> GetData()
+        //{
+
+        //}
     }
 }

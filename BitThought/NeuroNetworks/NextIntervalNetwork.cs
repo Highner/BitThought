@@ -9,7 +9,7 @@ namespace BitThought.NeuroNetworks
     public class NextIntervalNetwork: NeuroNetworkBase
     {
         #region constructor
-        public NextIntervalNetwork(int intervals) : base(new Accord.Neuro.IdentityFunction(), 100, new int[] { 150, 100, 50, intervals })
+        public NextIntervalNetwork(int intervals) : base(new Accord.Neuro.IdentityFunction(), 20, new int[] { 40, 40, intervals })
         {
             _Intervals = intervals;
         }

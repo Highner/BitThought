@@ -92,7 +92,7 @@
     </Compile>
     <Compile Include="Data\IDataGenerator.cs" />
     <Compile Include="Data\OHLCData.cs" />
-    <Compile Include="Data\TrainingData.cs" />
+    <Compile Include="Data\Controllers\CryptocompareDataController.cs" />
     <Compile Include="Indicators\Base\IIndicator.cs" />
     <Compile Include="Indicators\Base\IndicatorBase.cs" />
     <Compile Include="Indicators\Base\IndicatorSignal.cs" />

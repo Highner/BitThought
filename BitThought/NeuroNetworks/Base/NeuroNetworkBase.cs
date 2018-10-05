@@ -42,6 +42,17 @@ namespace BitThought.NeuroNetworks
             return true;
         }
 
+        void CalculateMSE()
+        {
+            int length = TestResult.Count();
+            double sum = 0;
+            for(int i = 0; i < length; i++)
+            {
+                sum += Math.Pow( TestResult[i].Sum() - TestExpected[i].Sum(), 2);
+            }
+            MeanSquareError = sum / length;
+        }
+
         protected abstract void Convert(double[][] source, out double[][] input, out double[][] output);
 
         #endregion
@@ -70,6 +81,9 @@ namespace BitThought.NeuroNetworks
                 TestResult.Add(Compute(_TestInput[i]));
                 TestExpected.Add(_TestOutput[i]);
             }
+
+            CalculateMSE();
+            
         }
 
         public void SetTrainingData(double[][] trainingdata, double[][] testdata)
@@ -111,6 +125,8 @@ namespace BitThought.NeuroNetworks
         #endregion
 
         #region public properties
+        public double DeterminationCoefficient { get; set; }
+        public double MeanSquareError { get; set; }
         public List<double> ErrorFunction { get; set; }
 
         public List<double[]> TestResult { get; set; } = new List<double[]>();

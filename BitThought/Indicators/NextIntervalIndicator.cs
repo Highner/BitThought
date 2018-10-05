@@ -8,18 +8,19 @@ namespace BitThought.Indicators
 {
     public class NextIntervalIndicator: IndicatorBase
     {
-        public NextIntervalIndicator()
+        public NextIntervalIndicator(int intervals)
         {
-            Network = new NeuroNetworks.NextIntervalNetwork(6);
+            Intervals = intervals;
+            Network = new NeuroNetworks.NextIntervalNetwork(intervals);
         }
 
 
-        public void TrainNetwork()
+        public void TrainNetwork(int epochs)
         {
             List<double[]> convertedorig = new List<double[]>();
 
             int limit = 2000;
-            int maxintervalls = 20;
+            int maxintervalls = 5;
             for (int x = 0; x < maxintervalls; x++)
             {
                 string timestamp = "";
@@ -31,7 +32,7 @@ namespace BitThought.Indicators
                 }
 
                 string contents = "";
-                string url = "https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=USD&limit=" + limit + timestamp;
+                string url = "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=" + limit + timestamp;
                 using (var wc = new System.Net.WebClient())
                     contents = wc.DownloadString(url);
 
@@ -47,7 +48,7 @@ namespace BitThought.Indicators
             convertedorig = convertedorig.OrderBy(x => x[5]).Distinct().ToList();
 
             Network.SetTrainingData(convertedorig.Take((convertedorig.Count() - 1000)).ToArray(), convertedorig.Skip((convertedorig.Count() - 1000)).ToArray());
-            Network.Train(100);
+            Network.Train(epochs);
         }
 
         private double[] ConvertFromSource(dynamic item)
@@ -55,6 +56,8 @@ namespace BitThought.Indicators
             return new double[] { item["open"], item["close"], item["high"], item["low"], item["volumefrom"], item["time"] };
         }
 
+        public int Intervals { get; set; }
       
     }
+
 }

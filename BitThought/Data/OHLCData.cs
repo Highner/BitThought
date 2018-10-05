@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BitThought.Data
 {
-    public class OHLCData: HynrFramework.IHasID
+    public class OHLCData
     {
 
         private dynamic dyn;
