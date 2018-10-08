@@ -8,25 +8,8 @@ namespace BitThought.NeuroNetworks
 {
     public abstract class NeuroNetworkBase : INeuroNetwork
     {
-        #region contructor
-        public NeuroNetworkBase(Accord.Neuro.IActivationFunction function, int inputneurons, int[] hiddenlayers)
-        {
-            CreateNetwork(function, inputneurons, hiddenlayers);
-
-            CreateTeacher();
-        }
-        #endregion
 
         #region private methods
-        void CreateNetwork(Accord.Neuro.IActivationFunction function, int inputneurons, int[] hiddenlayers)
-        {
-            _Network = new Accord.Neuro.ActivationNetwork(function, inputneurons, hiddenlayers);
-            _InputNeurons = inputneurons;
-        }
-        void CreateTeacher()
-        {
-            _Teacher = new Accord.Neuro.Learning.ParallelResilientBackpropagationLearning(_Network);
-        }
         bool ValidateData()
         {
             if (_TrainingSourceData == null) { return false; }
@@ -72,14 +55,18 @@ namespace BitThought.NeuroNetworks
         {
             List<double[]> newdata = new List<double[]>();
             for(int i = 0; i < data[0].Length; i++)
-            {
-                double min = data.Select(y => y[i]).Min();
-                double max = data.Select(y => y[i]).Max();
-
-                for (int x = 0; x < data.Length; x++)
+            {   
+                if(!(i==5))
                 {
-                    data[x][i] = Scale(data[x][i], min, max);
+                    double min = data.Select(y => y[i]).Min();
+                    double max = data.Select(y => y[i]).Max();
+
+                    for (int x = 0; x < data.Length; x++)
+                    {
+                        data[x][i] = Scale(data[x][i], min, max);
+                    }
                 }
+
             }
         }
 
@@ -97,7 +84,7 @@ namespace BitThought.NeuroNetworks
                 }
             }
         }
-        protected abstract void Convert(double[][] source, out double[][] input, out double[][] output);
+        protected abstract void Convert(double[][] source, int[] distribution, out double[][] input, out double[][] output);
 
         #endregion
 
@@ -130,6 +117,21 @@ namespace BitThought.NeuroNetworks
             
         }
 
+        public virtual void Validate()
+        {
+            ValidationResult.Clear();
+            ValidationExpected.Clear();
+
+            int testlength = _TrainingInput.Length;
+            for (int i = 0; i < testlength; i += 10)
+            {
+                ValidationResult.Add(Compute(_TrainingInput[i]));
+                ValidationExpected.Add(_TrainingOutput[i]);
+            }
+
+
+        }
+
         public void SetTrainingData(double[][] trainingdata, double[][] testdata)
         {
 
@@ -150,14 +152,14 @@ namespace BitThought.NeuroNetworks
             double[][] _traininginput;
             double[][] _trainingoutput;
 
-            Convert(_TrainingSourceData, out _traininginput, out _trainingoutput);
+            Convert(_TrainingSourceData, _InputDistribution, out _traininginput, out _trainingoutput);
             _TrainingInput = _traininginput;
             _TrainingOutput = _trainingoutput;
 
             double[][] _testinput;
             double[][] _testoutput;
 
-            Convert(_TestSourceData, out _testinput, out _testoutput);
+            Convert(_TestSourceData, _InputDistribution, out _testinput, out _testoutput);
             _TestInput = _testinput;
             _TestOutput = _testoutput;
         }
@@ -169,8 +171,8 @@ namespace BitThought.NeuroNetworks
         #endregion
 
         #region private properties
-        private Accord.Neuro.ActivationNetwork _Network { get; set; }
-        private Accord.Neuro.Learning.ParallelResilientBackpropagationLearning _Teacher { get; set; }
+        protected Accord.Neuro.Network _Network { get; set; }
+        protected Accord.Neuro.Learning.ISupervisedLearning _Teacher { get; set; }
         protected double[][] _TrainingSourceData { get; set; }
         protected double[][] _TrainingInput { get; set; }
         protected double[][] _TrainingOutput { get; set; }
@@ -179,6 +181,7 @@ namespace BitThought.NeuroNetworks
         protected double[][] _TestOutput { get; set; }
         protected int _InputNeurons { get; set; }
         protected bool _ScaleData { get; set; }
+        protected int[] _InputDistribution { get; set; }
         #endregion
 
         #region public properties
@@ -188,6 +191,12 @@ namespace BitThought.NeuroNetworks
 
         public List<double[]> TestResult { get; set; } = new List<double[]>();
         public List<double[]> TestExpected { get; set; } = new List<double[]>();
+
+        public List<double[]> ValidationResult { get; set; } = new List<double[]>();
+        public List<double[]> ValidationExpected { get; set; } = new List<double[]>();
+
+        public double ValidationPercentage { get; set; }
+        public double TestPercentage { get; set; }
         #endregion
     }
 }

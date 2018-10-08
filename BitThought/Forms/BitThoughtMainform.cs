@@ -24,10 +24,11 @@ namespace BitThought
 
             //Indicator = new Indicators.MinMaxPriceChangeIndicator();
 
-            Indicator = new Indicators.PriceTendencyIndicator(1);
+            Indicator = new Indicators.PriceTendencyIndicator();
 
-            Indicator.TrainNetwork(1000);
+            Indicator.TrainNetwork(300);
             Indicator.Test();
+            Indicator.Validate();
 
             List<double[]> newlist = new List<double[]>();
             List<double[]> emptylist = new List<double[]>();

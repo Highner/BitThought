@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace BitThought.NeuroNetworks
 {
-    public class MinMaxPriceChangeNetwork: NeuroNetworkBase 
+    public class MinMaxPriceChangeNetwork: NeuroNetworks.Base.ActivationNetworkBase 
     {
         #region constructor
-        public MinMaxPriceChangeNetwork(int inputneurons, int advanceintervall) : base(new Accord.Neuro.IdentityFunction(), inputneurons, new int[] { 40, 35, 30, 2 })
+        public MinMaxPriceChangeNetwork(int inputneurons, int advanceintervall, int[] inputdistribution) : base(new Accord.Neuro.IdentityFunction(), inputneurons, new int[] { 40, 35, 30, 2 }, inputdistribution)
         {
             AdvanceIntervall = advanceintervall;
         }
         #endregion
 
         #region base methods
-        protected override void Convert(double[][] source_ohlcv, out double[][] input, out double[][] output)
+        protected override void Convert(double[][] source_ohlcv, int[] distribution, out double[][] input, out double[][] output)
         {
             List<double[]> _input = new List<double[]>();
             List<double[]> _output = new List<double[]>();

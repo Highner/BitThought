@@ -94,12 +94,15 @@
     <Compile Include="Data\IDataGenerator.cs" />
     <Compile Include="Data\OHLCData.cs" />
     <Compile Include="Data\Controllers\CryptocompareDataController.cs" />
+    <Compile Include="Helpers\Conversion.cs" />
     <Compile Include="Indicators\Base\IIndicator.cs" />
     <Compile Include="Indicators\Base\IndicatorBase.cs" />
     <Compile Include="Indicators\Base\IndicatorSignal.cs" />
     <Compile Include="Indicators\MinMaxPriceChangeIndicator.cs" />
     <Compile Include="Indicators\NextIntervalIndicator.cs" />
     <Compile Include="Indicators\PriceTendencyIndicator.cs" />
+    <Compile Include="NeuroNetworks\Base\ActivationNetworkBase.cs" />
+    <Compile Include="NeuroNetworks\Base\DeepBeliefNetworkBase.cs" />
     <Compile Include="NeuroNetworks\Base\INeuroNetwork.cs" />
     <Compile Include="NeuroNetworks\Base\NeuroNetworkBase.cs" />
     <Compile Include="NeuroNetworks\MinMaxPriceChangeNetwork.cs" />

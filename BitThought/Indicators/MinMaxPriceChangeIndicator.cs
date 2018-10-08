@@ -11,7 +11,7 @@ namespace BitThought.Indicators
         #region contructor
         public MinMaxPriceChangeIndicator()
         {
-            Network = new NeuroNetworks.MinMaxPriceChangeNetwork(20, 5);
+            Network = new NeuroNetworks.MinMaxPriceChangeNetwork(20, 5, new int[] { 1 });
         }
         #endregion
 

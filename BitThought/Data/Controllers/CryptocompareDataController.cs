@@ -54,13 +54,16 @@ namespace BitThought.Data
                 }
             }
 
-            convertedorig = convertedorig.OrderBy(x => x[5]).Distinct().ToList();
+            convertedorig = convertedorig.Where(x => x[0] > 0).OrderBy(x => x[5]).Distinct().ToList();
+            var counter = convertedorig.Select(x => x[5]).Distinct().Count();
             return convertedorig;
         }
 
         private double[] ConvertFromSource(dynamic item)
         {
-            return new double[] { item["open"], item["close"], item["high"], item["low"], item["volumefrom"], item["time"] };
+            double day = (double)Helpers.Conversion.UnixTimeStampToDateTime((double)item["time"]).DayOfWeek;
+            double month = (double)Helpers.Conversion.UnixTimeStampToDateTime((double)item["time"]).Month;
+            return new double[] { item["open"], item["high"], item["low"], item["close"], item["volumefrom"], item["time"], day, month};
         }
         #endregion
     }

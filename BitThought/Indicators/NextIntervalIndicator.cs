@@ -11,7 +11,7 @@ namespace BitThought.Indicators
         public NextIntervalIndicator(int intervals)
         {
             Intervals = intervals;
-            Network = new NeuroNetworks.NextIntervalNetwork(intervals);
+            Network = new NeuroNetworks.NextIntervalNetwork(intervals, new int[] { 1});
         }
 
 

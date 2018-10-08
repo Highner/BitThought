@@ -8,18 +8,20 @@ namespace BitThought.Indicators
 {
     public class PriceTendencyIndicator: IndicatorBase
     {
-        public PriceTendencyIndicator(int intervals)
+        public PriceTendencyIndicator()
         {
-            Intervals = intervals;
-            Network = new NeuroNetworks.PriceTendencyNetwork(intervals);
+            Intervals = 3;
+            Network = new NeuroNetworks.PriceTendencyNetwork(Intervals, true, new int[] { 3, 4 }, 30);
         }
 
 
         public void TrainNetwork(int epochs)
         {
-            List<double[]> convertedorig = (new Data.CryptocompareDataController()).GetDataHours();
-            var train = convertedorig.Take((convertedorig.Count() - 1000)).ToArray();
-            var test = convertedorig.Skip((convertedorig.Count() - 1000)).ToArray();
+            List<double[]> convertedorig = (new Data.CryptocompareDataController()).GetDataMinutes();
+            var train = convertedorig.Take((convertedorig.Count() - 300)).ToArray();
+            var test3 = train.Last();
+            var test2 = train[train.Count() - 2];
+            var test = convertedorig.Skip((convertedorig.Count() - 300)).ToArray();
             Network.SetTrainingData(train, test);
             Network.Train(epochs);
         }

@@ -12,6 +12,8 @@ namespace BitThought.NeuroNetworks
 
         void Test();
 
+        void Validate();
+
         void SetTrainingData(double[][] trainingdata, double[][] testdata);
 
         double[] Compute(double[] value);

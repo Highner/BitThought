@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace BitThought.NeuroNetworks
 {
-    public class NextIntervalNetwork: NeuroNetworkBase
+    public class NextIntervalNetwork: Base.ActivationNetworkBase
     {
         #region constructor
-        public NextIntervalNetwork(int intervals) : base(new Accord.Neuro.IdentityFunction(), 20, new int[] { 40, 40, intervals })
+        public NextIntervalNetwork(int intervals, int[] inputdistribution) : base(new Accord.Neuro.IdentityFunction(), 20, new int[] { 40, 40, intervals }, inputdistribution)
         {
             _Intervals = intervals;
-            //_ScaleData = true;
+            _ScaleData = true;
         }
         #endregion
 
         #region base methods
-        protected override void Convert(double[][] source_ohlcv, out double[][] input, out double[][] output)
+        protected override void Convert(double[][] source_ohlcv, int[] distribution, out double[][] input, out double[][] output)
         {
             List<double[]> _input = new List<double[]>();
             List<double[]> _output = new List<double[]>();

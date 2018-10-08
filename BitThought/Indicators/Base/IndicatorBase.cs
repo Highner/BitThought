@@ -22,6 +22,11 @@ namespace BitThought.Indicators
         {
             Network.Test();
         }
+
+        public void Validate()
+        {
+            Network.Validate();
+        }
         #endregion
 
         #region properties
