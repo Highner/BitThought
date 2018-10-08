@@ -24,7 +24,7 @@ namespace BitThought
 
             //Indicator = new Indicators.MinMaxPriceChangeIndicator();
 
-            Indicator = new Indicators.NextIntervalIndicator(6);
+            Indicator = new Indicators.PriceTendencyIndicator(1);
 
             Indicator.TrainNetwork(1000);
             Indicator.Test();
@@ -65,8 +65,8 @@ namespace BitThought
             //series5.Points.DataBindY(newlist.Select(x => x[2]).ToList());
 
             chart1.Series.Clear();
-            
-            for(int i = 0; i < Indicator.Intervals; i++)
+
+            for (int i = 0; i < 3; i++)
             {
                 Series series = chart1.Series.Add("Computed " + i);
                 series.ChartType = SeriesChartType.Column;
@@ -75,14 +75,29 @@ namespace BitThought
             }
 
 
-            for (int i = 0; i < Indicator.Intervals; i++)
+            for (int i = 0; i < 3; i++)
             {
-  
+
 
                 Series series2 = chart1.Series.Add("Real " + i);
                 series2.ChartType = SeriesChartType.Column;
                 series2.Points.DataBindY(Indicator.TestExpected.Select(x => x[i]).ToList());
             }
+
+
+            //Series series = chart1.Series.Add("Computed ");
+            //    series.ChartType = SeriesChartType.Column;
+            //    series.Points.DataBindY(Indicator.TestResult.Select(x => x[0]).ToList());
+
+
+
+
+
+
+            //    Series series2 = chart1.Series.Add("Real ");
+            //    series2.ChartType = SeriesChartType.Column;
+            //    series2.Points.DataBindY(Indicator.TestExpected.Select(x => x[0]).ToList());
+    
 
         }
 
@@ -92,6 +107,6 @@ namespace BitThought
         // private Indicators.MinMaxPriceChangeIndicator Indicator;
 
 
-        private Indicators.NextIntervalIndicator Indicator;
+        private Indicators.PriceTendencyIndicator Indicator;
     }
 }

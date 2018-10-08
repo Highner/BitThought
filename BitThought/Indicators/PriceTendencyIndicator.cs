@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace BitThought.Indicators
 {
-    public class NextIntervalIndicator: IndicatorBase
+    public class PriceTendencyIndicator: IndicatorBase
     {
-        public NextIntervalIndicator(int intervals)
+        public PriceTendencyIndicator(int intervals)
         {
             Intervals = intervals;
-            Network = new NeuroNetworks.NextIntervalNetwork(intervals);
+            Network = new NeuroNetworks.PriceTendencyNetwork(intervals);
         }
 
 
         public void TrainNetwork(int epochs)
         {
             List<double[]> convertedorig = (new Data.CryptocompareDataController()).GetDataHours();
-            Network.SetTrainingData(convertedorig.Take((convertedorig.Count() - 1000)).ToArray(), convertedorig.Skip((convertedorig.Count() - 1000)).ToArray());
+            var train = convertedorig.Take((convertedorig.Count() - 1000)).ToArray();
+            var test = convertedorig.Skip((convertedorig.Count() - 1000)).ToArray();
+            Network.SetTrainingData(train, test);
             Network.Train(epochs);
         }
 
         public int Intervals { get; set; }
-      
     }
-
 }

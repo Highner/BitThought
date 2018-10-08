@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Controllers\IOHLCDataController.cs" />
     <Compile Include="Forms\BitThoughtMainform.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,10 +99,12 @@
     <Compile Include="Indicators\Base\IndicatorSignal.cs" />
     <Compile Include="Indicators\MinMaxPriceChangeIndicator.cs" />
     <Compile Include="Indicators\NextIntervalIndicator.cs" />
+    <Compile Include="Indicators\PriceTendencyIndicator.cs" />
     <Compile Include="NeuroNetworks\Base\INeuroNetwork.cs" />
     <Compile Include="NeuroNetworks\Base\NeuroNetworkBase.cs" />
     <Compile Include="NeuroNetworks\MinMaxPriceChangeNetwork.cs" />
     <Compile Include="NeuroNetworks\NextIntervalNetwork.cs" />
+    <Compile Include="NeuroNetworks\PriceTendencyNetwork.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

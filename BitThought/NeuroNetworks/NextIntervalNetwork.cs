@@ -9,14 +9,14 @@ namespace BitThought.NeuroNetworks
     public class NextIntervalNetwork: NeuroNetworkBase
     {
         #region constructor
-        public NextIntervalNetwork(int intervals) : base(new Accord.Neuro.SigmoidFunction(), 20, new int[] { 40, 40, intervals })
+        public NextIntervalNetwork(int intervals) : base(new Accord.Neuro.IdentityFunction(), 20, new int[] { 40, 40, intervals })
         {
             _Intervals = intervals;
-            _ScaleData = true;
+            //_ScaleData = true;
         }
         #endregion
 
-        #region
+        #region base methods
         protected override void Convert(double[][] source_ohlcv, out double[][] input, out double[][] output)
         {
             List<double[]> _input = new List<double[]>();
