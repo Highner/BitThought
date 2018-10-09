@@ -26,9 +26,9 @@ namespace BitThought
 
             Indicator = new Indicators.PriceTendencyIndicator();
 
-            Indicator.TrainNetwork(300);
-            Indicator.Test();
-            Indicator.Validate();
+            //Indicator.TrainNetwork(300);
+            //Indicator.Test();
+            //Indicator.Validate();
 
             List<double[]> newlist = new List<double[]>();
             List<double[]> emptylist = new List<double[]>();
@@ -67,23 +67,23 @@ namespace BitThought
 
             chart1.Series.Clear();
 
-            for (int i = 0; i < 3; i++)
-            {
-                Series series = chart1.Series.Add("Computed " + i);
-                series.ChartType = SeriesChartType.Column;
-                series.Points.DataBindY(Indicator.TestResult.Select(x => x[i]).ToList());
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    Series series = chart1.Series.Add("Computed " + i);
+            //    series.ChartType = SeriesChartType.Column;
+            //    series.Points.DataBindY(Indicator.TestResult.Select(x => x[i]).ToList());
 
-            }
-
-
-            for (int i = 0; i < 3; i++)
-            {
+            //}
 
 
-                Series series2 = chart1.Series.Add("Real " + i);
-                series2.ChartType = SeriesChartType.Column;
-                series2.Points.DataBindY(Indicator.TestExpected.Select(x => x[i]).ToList());
-            }
+            //for (int i = 0; i < 3; i++)
+            //{
+
+
+            //    Series series2 = chart1.Series.Add("Real " + i);
+            //    series2.ChartType = SeriesChartType.Column;
+            //    series2.Points.DataBindY(Indicator.TestExpected.Select(x => x[i]).ToList());
+            //}
 
 
             //Series series = chart1.Series.Add("Computed ");
