@@ -25,7 +25,7 @@ namespace BitThought.Indicators
             var test2 = train[train.Count() - 2];
             var test = convertedorig.Skip((convertedorig.Count() - 300)).ToArray();
             Network.SetTrainingData(train, test);
-            Network.Train(_TrainingEpochs);
+            Network.Train(TrainingEpochs);
         }
 
         public int Intervals { get; set; }

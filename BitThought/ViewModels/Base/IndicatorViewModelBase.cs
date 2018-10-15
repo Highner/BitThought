@@ -14,14 +14,16 @@ namespace BitThought.ViewModels.Base
         #region commands
         [Browsable(false)]
         public Command LoadTrainingDataCommand { get; set; }
+        [Browsable(false)]
+        public Command TrainNetworkCommand { get; set; }
         #endregion
 
         #region constructor
-        public IndicatorViewModelBase(HynrFramework.ListViewModelBase<double[]> trainingdatalvm, Indicators.IndicatorBase indicator)
+        public IndicatorViewModelBase(Indicators.IndicatorBase indicator)
         {
-            TrainingDataListViewModel = trainingdatalvm;
-            Indicator = indicator;
-            LoadTrainingDataCommand = new Command(LoadTrainingData);
+            _Indicator = indicator;
+            LoadTrainingDataCommand = new Command(ExecuteLoadTrainingData);
+            TrainNetworkCommand = new Command(ExecuteTrainNetwork);
         }
         #endregion
 
@@ -29,16 +31,87 @@ namespace BitThought.ViewModels.Base
 
         #endregion
 
-        #region private methods
-        void LoadTrainingData()
+        #region async methods
+        async void ExecuteLoadTrainingData()
         {
-            TrainingDataListViewModel.RefreshAllCommand.Execute();
+            SetBusyStatus("Loading trainingdata");
+
+            await Task.Run(() => LoadTrainingData());
+
+            _Indicator.SetTrainingData(_TrainingData.ToArray(), _TestData.ToArray());
+
+            SetNotBusyStatus();
+        }
+        async void ExecuteTrainNetwork()
+        {
+            SetBusyStatus("Training Network");
+
+            await Task.Run(() => _Indicator.TrainNetwork());
+
+            SetNotBusyStatus();
         }
         #endregion
 
-        #region properties
-        HynrFramework.ListViewModelBase<double[]> TrainingDataListViewModel { get; set; }
-        Indicators.IndicatorBase Indicator { get; set; }
+        #region private methods
+        void ResetStatus()
+        {
+            Status = "";
+        }
+        void SetBusyStatus(string status)
+        {
+            IsBusy = true;
+            Status = status;
+        }
+        void SetNotBusyStatus()
+        {
+            IsBusy = false;
+            ResetStatus();
+        }
+        #endregion
+
+        #region overridable methods
+        protected virtual void LoadTrainingData()
+        {
+
+        }
+        #endregion
+
+        #region private properties
+        List<double[]> _TrainingData { get; set; }
+        List<double[]> _TestData { get; set; }
+        Indicators.IndicatorBase _Indicator { get; set; }
+        #endregion
+
+        #region public properties
+        string _Status;
+        public string Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                _Status = value;
+                OnPropertyChanged("Status");
+            }
+        }
+        public int TrainingEpochs
+        {
+            get
+            {
+                return _Indicator.TrainingEpochs;
+            }
+
+            set
+            {
+                _Indicator.TrainingEpochs = value;
+                OnPropertyChanged("TrainingEpochs");
+            }
+        }
+
+
+
         #endregion
     }
 }

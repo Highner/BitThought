@@ -8,7 +8,6 @@ namespace BitThought.Indicators
 {
     public interface IIndicator
     {
-        void Train(int epochs);
 
         void Test();
 

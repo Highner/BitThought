@@ -17,13 +17,9 @@ namespace BitThought.Indicators
 
         #region public methods
 
-        public void GetTrainingData()
+        public void SetTrainingData(double[][] trainingdata, double[][] testdata)
         {
-
-        }
-        public void Train(int epochs)
-        {
-            Network.Train(epochs);
+            Network.SetTrainingData(trainingdata, testdata);
         }
 
         public void Test()
@@ -36,17 +32,14 @@ namespace BitThought.Indicators
             Network.Validate();
         }
 
-        public async void TrainNetwork()
+        public void TrainNetwork()
         {
-
-            List<double[]> convertedorig = (new Data.CryptocompareDataController()).GetDataDays();
-            var train = convertedorig.Take((convertedorig.Count() - 300)).ToArray();
-            var test3 = train.Last();
-            var test2 = train[train.Count() - 2];
-            var test = convertedorig.Skip((convertedorig.Count() - 300)).ToArray();
-            Network.SetTrainingData(train, test);
-            Network.Train(_TrainingEpochs);
+            Network.Train(TrainingEpochs);
         }
+        #endregion
+
+        #region private methods
+
         #endregion
 
         #region properties
@@ -55,7 +48,7 @@ namespace BitThought.Indicators
         public List<double[]> TestResult { get { return Network.TestResult; } }
         public List<double[]> TestExpected { get { return Network.TestExpected; } }
 
-        protected int _TrainingEpochs { get; set; }
+        public int TrainingEpochs { get; set; }
         #endregion
     }
 }
